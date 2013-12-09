@@ -1,48 +1,47 @@
 require "spec_helper"
 
-describe Exempt do 
-  before (:each) do
-    @item = Exempt.new
-  end
-
-  it "should read the text file successfully" do
-
-  end
-
-  it "should identify 'book' as an exempt item" do 
-  end
-
-  it "should identify 'pills' as an exempt item" do
-  end
+describe Exempt do
 
   it "should return the untaxed prize for regular exempt item" do
-    @item.exempt(15).should eq 15
+    item = Exempt.new
+    item.exempt(10).should eq 10
   end
 
-  it "should return the taxed prize for imported exempt item" do
-    new_prize = @item.exempt(10) + @item.regular_tax(10)
-    new_prize.should eq 10.50
+  it "should return the new prize with 5% tax for imported exempt item" do
+    item = Exempt.new
+    item.exempt(10,true).should eq 10.5
   end
+
 end
+
+
 
 describe Nonexempt do
-  before (:each) do
-    @item = Nonexempt.new
+
+  it "should return the new prize with 10% tax for non-imported non-exempted item" do
+    item = Nonexempt.new
+    item.non_exempt(14.99).should eq 16.49
   end
 
-  it "should return the new prize with 10% tax for non-imported item" do
+  it "should return the new prize with 10% tax and an additional 5% for imported non-exempted item" do
+    item = Nonexempt.new
+    item.non_exempt(27.99, true).should eq 32.19
   end
-
-
-  it "should identify music CD as an non-exempt item" do 
-  end
-
-
-  it "should return the new prize with 10% tax and an additional 5% for imported item" do
-  end
-
 
 end
+
+
+
+describe print_out do 
+  
+  it "should read the file successfully" do
+    print_out("input1.txt").should_not raise_error
+  end
+
+end
+
+
+
 
 
 
